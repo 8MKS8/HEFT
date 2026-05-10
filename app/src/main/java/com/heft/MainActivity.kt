@@ -5,43 +5,74 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.heft.ui.theme.HEFTTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.heft.ui.auth.AuthScreen
+import com.heft.ui.auth.AuthViewModel
+import com.heft.ui.auth.DarkBackground
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.heft.ui.auth.NeonGreen
+import androidx.compose.ui.Alignment
+import androidx.compose.material3.Text
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            HEFTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            // Navigation controller
+            val navController = rememberNavController()
+
+            // Auth ViewModel
+            val authViewModel: AuthViewModel = viewModel()
+
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = DarkBackground
+            ) {
+                NavHost(
+                    navController = navController,
+                    // Start at home if logged in, otherwise auth
+                    startDestination = if (authViewModel.isLoggedIn) "home" else "auth"
+                ) {
+                    // Auth screen — Login / Register
+                    composable("auth") {
+                        AuthScreen(
+                            onAuthSuccess = {
+                                navController.navigate("home") {
+                                    // Clear back stack so user cant go back to login
+                                    popUpTo("auth") { inclusive = true }
+                                }
+                            }
+                        )
+                    }
+
+                    // Home screen — temporary placeholder
+                    composable("home") {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(DarkBackground),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Welcome to HEFT! 💪",
+                                color = NeonGreen,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HEFTTheme {
-        Greeting("Android")
     }
 }
