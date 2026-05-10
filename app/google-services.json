@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370971533842",
+    "project_id": "heft-6f51b",
+    "storage_bucket": "heft-6f51b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370971533842:android:e23fe784a27181ae7f6ecb",
+        "android_client_info": {
+          "package_name": "com.heft"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiYkHLTBG0g_L-vnkl081Ywg_l6qO67to"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
