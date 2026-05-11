@@ -7,20 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.heft.ui.auth.AuthScreen
 import com.heft.ui.auth.AuthViewModel
 import com.heft.ui.auth.DarkBackground
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.heft.ui.auth.NeonGreen
-import androidx.compose.ui.Alignment
-import androidx.compose.material3.Text
+import com.heft.ui.home.HomeScreen
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +35,6 @@ class MainActivity : ComponentActivity() {
             ) {
                 NavHost(
                     navController = navController,
-                    // Start at home if logged in, otherwise auth
                     startDestination = if (authViewModel.isLoggedIn) "home" else "auth"
                 ) {
                     // Auth screen — Login / Register
@@ -55,21 +49,37 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // Home screen — temporary placeholder
+                    // Home screen — main navigation hub
                     composable("home") {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(DarkBackground),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Welcome to HEFT! 💪",
-                                color = NeonGreen,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+                        HomeScreen(
+                            // Navigate to Add Exercise screen
+                            onAddExercise = {
+                                navController.navigate("exercise")
+                            },
+                            // Navigate to History screen
+                            onHistory = {
+                                navController.navigate("history")
+                            },
+                            // Navigate to Analytics screen
+                            onAnalytics = {
+                                navController.navigate("analytics")
+                            },
+                            // Navigate to Practice screen
+                            onPractice = {
+                                navController.navigate("practice")
+                            },
+                            // Navigate to Profile screen
+                            onProfile = {
+                                navController.navigate("profile")
+                            },
+                            // Logout — clear back stack and go to auth
+                            onLogout = {
+                                FirebaseAuth.getInstance().signOut()
+                                navController.navigate("auth") {
+                                    popUpTo("home") { inclusive = true }
+                                }
+                            }
+                        )
                     }
                 }
             }

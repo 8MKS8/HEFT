@@ -1,5 +1,8 @@
 package com.heft.ui.auth
 
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.heft.R
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,12 +22,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-// Colours for our dark fitness theme
-val DarkBackground = Color(0xFF121212)
-val CardBackground = Color(0xFF1E1E1E)
-val NeonGreen      = Color(0xFF39FF14)
-val TextPrimary    = Color.White
-val TextSecondary  = Color(0xFFA0A0A0)
+// ── HEFT Global Color Palette ─────────────────────────────────────────────
+// Background color — dark blue/grey
+val DarkBackground = Color(0xFF2C3947)
+
+// Card color — medium blue/grey for the 4 category cards
+val CardBackground = Color(0xFFC2A56D)
+
+// Primary text color — warm gold
+val TextPrimary    = Color(0xFF547A95)
+
+// Secondary text color — slightly transparent gold
+val TextSecondary  = Color(0xFF547A95).copy(alpha = 0.7f)
+
+// Accent color — keep neon green for buttons
+val NeonGreen      = Color(0xFFE8EDF2)
 
 @Composable
 fun AuthScreen(
@@ -66,19 +78,6 @@ fun AuthScreen(
         ) {
 
             // ── App Logo & Title ─────────────────────────────────────────
-            Text(
-                text = "💪",
-                fontSize = 64.sp
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "HEFT",
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                color = NeonGreen
-            )
 
             Text(
                 text = "Home Exercise Fitness Tracker",
