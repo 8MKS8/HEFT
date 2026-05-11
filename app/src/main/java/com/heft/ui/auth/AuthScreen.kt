@@ -33,7 +33,7 @@ val CardBackground = Color(0xFFC2A56D)
 val TextPrimary    = Color(0xFF547A95)
 
 // Secondary text color — slightly transparent gold
-val TextSecondary  = Color(0xFF547A95).copy(alpha = 0.7f)
+val TextSecondary  = Color(0xFF547A95).copy(alpha = 1.2f)
 
 // Accent color — keep neon green for buttons
 val NeonGreen      = Color(0xFFE8EDF2)
