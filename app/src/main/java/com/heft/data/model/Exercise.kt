@@ -19,11 +19,14 @@ data class Exercise(
         // Calories burned per rep for each exercise type
         val caloriesPerRep = mapOf(
             "Push-ups"          to 0.5,
+            "Pull-ups"          to 0.8,
+            "Dips"              to 0.7,
             "Squats"            to 0.8,
             "Lunges"            to 0.7,
-            "Burpees"           to 1.5,
+            "Burpees"           to 1.3,
             "Sit-ups"           to 0.4,
             "Jumping Jacks"     to 0.4,
+            "Rope Jumping"      to 0.25,
             "Mountain Climbers" to 0.5,
             "Plank"             to 0.0
         )

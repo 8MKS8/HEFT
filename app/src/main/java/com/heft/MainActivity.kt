@@ -17,6 +17,7 @@ import com.heft.ui.auth.DarkBackground
 import com.heft.ui.home.HomeScreen
 import com.google.firebase.auth.FirebaseAuth
 import com.heft.ui.exercise.ExerciseScreen
+import com.heft.ui.history.HistoryScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -89,6 +90,16 @@ class MainActivity : ComponentActivity() {
                     // Add Exercise screen
                     composable("exercise") {
                         ExerciseScreen(
+                            // Navigate back to home
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+
+                    // History screen
+                    composable("history") {
+                        HistoryScreen(
                             // Navigate back to home
                             onBack = {
                                 navController.popBackStack()

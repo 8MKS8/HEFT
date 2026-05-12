@@ -3,7 +3,7 @@ package com.heft.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.heft.ui.auth.CardBackground
-import com.heft.ui.auth.DarkBackground
 import com.heft.ui.auth.NeonGreen
 import com.heft.ui.auth.TextPrimary
 import com.heft.ui.auth.TextSecondary
@@ -54,7 +53,7 @@ fun DrawerContent(
 
         // ── App Header ────────────────────────────────────────────────────
         Text(
-            text = "💪 HEFT",
+            text = "HEFT",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = NeonGreen

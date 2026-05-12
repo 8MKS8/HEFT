@@ -19,11 +19,14 @@ data class Practice(
         // Calories burned per minute for each exercise type
         val caloriesPerMinute = mapOf(
             "Push-ups"          to 7.0,
+            "Pull-ups"          to 8.0,
+            "Dips"              to 7.0,
             "Squats"            to 8.0,
             "Lunges"            to 7.0,
             "Burpees"           to 10.0,
             "Sit-ups"           to 6.0,
             "Jumping Jacks"     to 8.0,
+            "Rope Jumping"      to 10.0,
             "Mountain Climbers" to 9.0,
             "Plank"             to 5.0
         )
