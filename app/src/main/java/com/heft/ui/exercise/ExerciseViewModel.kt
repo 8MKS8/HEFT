@@ -70,7 +70,8 @@ class ExerciseViewModel : ViewModel() {
                 sets           = setsInt,
                 reps           = repsInt,
                 caloriesBurned = calories,
-                notes          = notes
+                notes          = notes,
+                timestamp      = com.google.firebase.Timestamp.now()
             )
 
             val result = repository.saveExercise(exercise)

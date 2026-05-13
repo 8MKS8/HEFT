@@ -248,9 +248,13 @@ fun ExerciseHistoryCard(
 ) {
     // Format the timestamp
     val dateFormat = SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault())
-    val dateStr = exercise.timestamp?.toDate()?.let {
-        dateFormat.format(it)
-    } ?: "Just now"
+    val dateStr = try {
+        exercise.timestamp?.toDate()?.let {
+            dateFormat.format(it)
+        } ?: "Syncing..."
+    } catch (e: Exception) {
+        "Syncing..."
+    }
 
     // Show delete confirmation dialog
     var showDeleteDialog by remember { mutableStateOf(false) }

@@ -1,4 +1,4 @@
-package com.heft.ui.notifications
+package com.heft.ui
 
 import android.Manifest
 import android.content.Context

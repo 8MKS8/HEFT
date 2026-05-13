@@ -19,7 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.heft.ui.exercise.ExerciseScreen
 import com.heft.ui.history.HistoryScreen
 import com.heft.ui.profile.ProfileScreen
-import com.heft.ui.notifications.NotificationsScreen
+import com.heft.ui.NotificationsScreen
+import com.heft.ui.analytics.AnalyticsScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -128,6 +129,16 @@ class MainActivity : ComponentActivity() {
                     // Notifications screen
                     composable("notifications") {
                         NotificationsScreen(
+                            // Navigate back to home
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+
+                    // Analytics screen
+                    composable("analytics") {
+                        AnalyticsScreen(
                             // Navigate back to home
                             onBack = {
                                 navController.popBackStack()
