@@ -34,14 +34,41 @@ class AnalyticsViewModel : ViewModel() {
         viewModelScope.launch {
             _analyticsState.value = AnalyticsState.Loading
 
-            // Load analytics data
-            val analyticsResult = repository.getAnalytics()
-            val exercisesResult = repository.getExercises()
+            val analyticsResult  = repository.getAnalytics()
+            val exercisesResult  = repository.getExercises()
+            val practicesResult  = repository.getPractices()
 
             if (analyticsResult.isSuccess && exercisesResult.isSuccess) {
+                val exercises = exercisesResult.getOrNull() ?: emptyList()
+                val practices = practicesResult.getOrNull() ?: emptyList()
+
+                android.util.Log.d("AnalyticsViewModel",
+                    "Loaded ${exercises.size} exercises and ${practices.size} practices")
+
+                // Update analytics with practice sessions count
+                val analytics = analyticsResult.getOrNull()!!.copy(
+                    totalPracticeSessions = practices.size
+                )
+
+                // Convert practices to exercises for breakdown chart
+                val practiceAsExercises = practices.map { practice ->
+                    com.heft.data.model.Exercise(
+                        id             = practice.id,
+                        userId         = practice.userId,
+                        exerciseType   = "${practice.exerciseType} (Practice)",
+                        sets           = 1,
+                        reps           = practice.durationMinutes,
+                        caloriesBurned = practice.caloriesBurned,
+                        timestamp      = practice.timestamp
+                    )
+                }
+
+                // Combine exercises and practices
+                val combined = exercises + practiceAsExercises
+
                 _analyticsState.value = AnalyticsState.Success(
-                    analytics = analyticsResult.getOrNull()!!,
-                    exercises = exercisesResult.getOrNull()!!
+                    analytics = analytics,
+                    exercises = combined
                 )
             } else {
                 _analyticsState.value = AnalyticsState.Error(

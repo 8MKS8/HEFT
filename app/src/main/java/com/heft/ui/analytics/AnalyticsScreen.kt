@@ -21,6 +21,7 @@ import com.heft.ui.auth.DarkBackground
 import com.heft.ui.auth.NeonGreen
 import com.heft.ui.auth.TextPrimary
 import com.heft.ui.auth.TextSecondary
+import androidx.compose.ui.platform.LocalContext
 
 /**
  * AnalyticsScreen – displays user fitness analytics.
@@ -157,19 +158,16 @@ fun OverallStatsCard(analytics: Analytics) {
                 fontWeight = FontWeight.Bold
             )
 
-            // Stats grid
+            // Stats grid Row 1
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                // Total sessions
                 AnalyticsStatItem(
                     value = analytics.totalSessions.toString(),
                     label = "Sessions",
                     emoji = "🏋️"
                 )
-
-                // Total reps
                 AnalyticsStatItem(
                     value = analytics.totalReps.toString(),
                     label = "Total Reps",
@@ -177,22 +175,79 @@ fun OverallStatsCard(analytics: Analytics) {
                 )
             }
 
+            // Stats grid Row 2
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                // Total calories
                 AnalyticsStatItem(
                     value = String.format("%.0f", analytics.totalCaloriesBurned),
                     label = "Calories",
                     emoji = "🔥"
                 )
-
-                // Practice sessions
                 AnalyticsStatItem(
                     value = analytics.totalPracticeSessions.toString(),
                     label = "Practice",
                     emoji = "🎯"
+                )
+            }
+
+            // ── Facebook Share ────────────────────────────────────────
+            HorizontalDivider(color = NeonGreen.copy(alpha = 0.3f))
+
+            val context = LocalContext.current
+
+            Button(
+                onClick = {
+                    val shareText = buildString {
+                        appendLine("🏋️ My HEFT Fitness Stats!")
+                        appendLine()
+                        appendLine("💪 Total Sessions: ${analytics.totalSessions}")
+                        appendLine("🔄 Total Reps: ${analytics.totalReps}")
+                        appendLine("🔥 Calories Burned: ${String.format("%.0f", analytics.totalCaloriesBurned)} kcal")
+                        appendLine("🎯 Practice Sessions: ${analytics.totalPracticeSessions}")
+                        appendLine()
+                        appendLine("Tracking my home workouts with HEFT! 💪")
+                        appendLine("#HomeWorkout #HEFT #Fitness #Health")
+                    }
+                    try {
+                        // Try Facebook app first
+                        val facebookIntent = android.content.Intent(
+                            android.content.Intent.ACTION_SEND
+                        ).apply {
+                            type = "text/plain"
+                            setPackage("com.facebook.katana")
+                            putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+                        }
+                        context.startActivity(facebookIntent)
+                    } catch (e: Exception) {
+                        // Fallback to share sheet
+                        val shareIntent = android.content.Intent(
+                            android.content.Intent.ACTION_SEND
+                        ).apply {
+                            type = "text/plain"
+                            putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+                        }
+                        context.startActivity(
+                            android.content.Intent.createChooser(
+                                shareIntent, "Share your results"
+                            )
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF1877F2),
+                    contentColor   = Color.White
+                )
+            ) {
+                Text(
+                    text       = "📘 Share on Facebook",
+                    fontWeight = FontWeight.Bold,
+                    fontSize   = 15.sp
                 )
             }
         }
