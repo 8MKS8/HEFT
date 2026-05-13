@@ -21,6 +21,7 @@ import com.heft.ui.history.HistoryScreen
 import com.heft.ui.profile.ProfileScreen
 import com.heft.ui.NotificationsScreen
 import com.heft.ui.analytics.AnalyticsScreen
+import com.heft.ui.practice.PracticeScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -139,6 +140,16 @@ class MainActivity : ComponentActivity() {
                     // Analytics screen
                     composable("analytics") {
                         AnalyticsScreen(
+                            // Navigate back to home
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+
+                    // Practice screen
+                    composable("practice") {
+                        PracticeScreen(
                             // Navigate back to home
                             onBack = {
                                 navController.popBackStack()
