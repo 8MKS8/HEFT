@@ -56,7 +56,7 @@ fun HomeScreen(
                         text = "HEFT",
                         color = NeonGreen,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 22.sp
                     )
                     Text(
                         text = userEmail,
@@ -120,7 +120,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DarkBackground)
-            .padding(16.dp)
+            .padding(20.dp)
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -129,13 +129,13 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Spacer to push title to center
+            // Spacer to balance right side
             Spacer(modifier = Modifier.width(44.dp))
 
             // App title centered
             Text(
                 text = "HEFT",
-                color = NeonGreen,
+                color = DarkBackground,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f),
@@ -169,17 +169,26 @@ fun HomeScreen(
 
         // ── Welcome Header ────────────────────────────────────────────────
         Text(
-            text = "Welcome to Home Exercise",
-            color = TextSecondary,
-            fontSize = 14.sp,
+            text = "Welcome to",
+            color = CardBackground,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
 
         Text(
-            text = "Fitness Tracker (HEFT)",
-            color = NeonGreen,
-            fontSize = 18.sp,
+            text = " Home Exercise Fitness Tracker",
+            color = CardBackground,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "HEFT",
+            color = CardBackground,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
@@ -212,7 +221,7 @@ fun HomeScreen(
         // ── Navigation Grid Row 1 ─────────────────────────────────────────
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             // Add Exercise card
             HomeGridCard(
@@ -236,7 +245,7 @@ fun HomeScreen(
         // ── Navigation Grid Row 2 ─────────────────────────────────────────
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             // Analytics card
             HomeGridCard(
@@ -284,7 +293,7 @@ fun HomeGridCard(
             // Card icon
             Text(
                 text = emoji,
-                fontSize = 36.sp
+                fontSize = 40.sp
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -293,7 +302,7 @@ fun HomeGridCard(
             Text(
                 text = title,
                 color = TextPrimary,
-                fontSize = 13.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
