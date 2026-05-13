@@ -22,6 +22,7 @@ import com.heft.ui.auth.NeonGreen
 import com.heft.ui.auth.TextPrimary
 import com.heft.ui.auth.TextSecondary
 import androidx.compose.ui.platform.LocalContext
+import java.util.Locale
 
 /**
  * AnalyticsScreen – displays user fitness analytics.
@@ -181,7 +182,7 @@ fun OverallStatsCard(analytics: Analytics) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 AnalyticsStatItem(
-                    value = String.format("%.0f", analytics.totalCaloriesBurned),
+                    value = String.format(Locale.getDefault(), "%.0f", analytics.totalCaloriesBurned),
                     label = "Calories",
                     emoji = "🔥"
                 )
@@ -204,7 +205,7 @@ fun OverallStatsCard(analytics: Analytics) {
                         appendLine()
                         appendLine("💪 Total Sessions: ${analytics.totalSessions}")
                         appendLine("🔄 Total Reps: ${analytics.totalReps}")
-                        appendLine("🔥 Calories Burned: ${String.format("%.0f", analytics.totalCaloriesBurned)} kcal")
+                        appendLine("🔥 Calories Burned: ${String.format(Locale.getDefault(), "%.0f", analytics.totalCaloriesBurned)} kcal")
                         appendLine("🎯 Practice Sessions: ${analytics.totalPracticeSessions}")
                         appendLine()
                         appendLine("Tracking my home workouts with HEFT! 💪")
@@ -220,7 +221,7 @@ fun OverallStatsCard(analytics: Analytics) {
                             putExtra(android.content.Intent.EXTRA_TEXT, shareText)
                         }
                         context.startActivity(facebookIntent)
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         // Fallback to share sheet
                         val shareIntent = android.content.Intent(
                             android.content.Intent.ACTION_SEND
@@ -344,7 +345,7 @@ fun PersonalBestsCard(analytics: Analytics) {
 
                         // Calories
                         Text(
-                            text = "🔥${String.format("%.1f", best.calories)}",
+                            text = "🔥${String.format(Locale.getDefault(), "%.1f", best.calories)}",
                             color = TextSecondary,
                             fontSize = 12.sp
                         )
@@ -427,7 +428,7 @@ fun ExerciseBreakdownCard(exercises: List<Exercise>) {
 
                         // Calories
                         Text(
-                            text = "🔥${String.format("%.0f", calories)}",
+                            text = "🔥${String.format(Locale.getDefault(), "%.0f", calories)}",
                             color = TextSecondary,
                             fontSize = 12.sp
                         )
