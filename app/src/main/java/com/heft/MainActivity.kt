@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.heft.ui.exercise.ExerciseScreen
 import com.heft.ui.history.HistoryScreen
 import com.heft.ui.profile.ProfileScreen
+import com.heft.ui.notifications.NotificationsScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -78,6 +79,12 @@ class MainActivity : ComponentActivity() {
                             onProfile = {
                                 navController.navigate("profile")
                             },
+
+                            // Navigate to Notifications screen
+                            onNotifications = {
+                                navController.navigate("notifications")
+                            },
+
                             // Logout — clear back stack and go to auth
                             onLogout = {
                                 FirebaseAuth.getInstance().signOut()
@@ -111,6 +118,16 @@ class MainActivity : ComponentActivity() {
                     // Profile screen
                     composable("profile") {
                         ProfileScreen(
+                            // Navigate back to home
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+
+                    // Notifications screen
+                    composable("notifications") {
+                        NotificationsScreen(
                             // Navigate back to home
                             onBack = {
                                 navController.popBackStack()

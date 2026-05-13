@@ -36,6 +36,7 @@ fun HomeScreen(
     onAnalytics: () -> Unit,
     onPractice: () -> Unit,
     onProfile: () -> Unit,
+    onNotifications: () -> Unit,
     onLogout: () -> Unit
 ) {
     // Controls whether the menu dialog is showing
@@ -89,7 +90,10 @@ fun HomeScreen(
                         emoji = "🔔",
                         title = "Notifications",
                         subtitle = "Manage your notifications",
-                        onClick = { showMenu = false }
+                        onClick = {
+                            showMenu = false
+                            onNotifications()
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
