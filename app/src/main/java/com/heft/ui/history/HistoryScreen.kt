@@ -175,45 +175,68 @@ fun HistoryScreen(
  */
 @Composable
 fun HistoryStatsCard(exercises: List<Exercise>) {
-    // Calculate totals
-    val totalSets     = exercises.sumOf { it.sets }
-    val totalReps     = exercises.sumOf { it.reps }
+    // Calculate totals — exclude practice sessions from sets/reps
+    val exercisesOnly = exercises.filter { !it.exerciseType.contains("Practice") }
+    val practiceOnly  = exercises.filter { it.exerciseType.contains("Practice") }
+    val totalSets     = exercisesOnly.sumOf { it.sets }
+    val totalReps     = exercisesOnly.sumOf { it.reps }
     val totalCalories = exercises.sumOf { it.caloriesBurned }
+    val totalPractice = practiceOnly.size
 
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = CardBackground)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Total sessions
-            StatItem(
-                value = exercises.size.toString(),
-                label = "Sessions"
-            )
+            // First row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                // Total sessions
+                StatItem(
+                    value = exercisesOnly.size.toString(),
+                    label = "Exercises"
+                )
 
-            // Total sets
-            StatItem(
-                value = totalSets.toString(),
-                label = "Total Sets"
-            )
+                // Total practice
+                StatItem(
+                    value = totalPractice.toString(),
+                    label = "Practice"
+                )
 
-            // Total reps
-            StatItem(
-                value = totalReps.toString(),
-                label = "Total Reps"
-            )
+                // Total calories
+                StatItem(
+                    value = String.format("%.0f", totalCalories),
+                    label = "Calories"
+                )
+            }
 
-            // Total calories
-            StatItem(
-                value = String.format("%.0f", totalCalories),
-                label = "Calories"
-            )
+            HorizontalDivider(color = NeonGreen.copy(alpha = 0.2f))
+
+            // Second row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                // Total sets
+                StatItem(
+                    value = totalSets.toString(),
+                    label = "Total Sets"
+                )
+
+                // Total reps
+                StatItem(
+                    value = totalReps.toString(),
+                    label = "Total Reps"
+                )
+            }
         }
     }
 }
@@ -310,19 +333,58 @@ fun ExerciseHistoryCard(
         ) {
             // Exercise info
             Column(modifier = Modifier.weight(1f)) {
-                // Exercise type
-                Text(
-                    text = exercise.exerciseType,
-                    color = TextPrimary,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                // Exercise type with badge
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // Exercise name
+                    Text(
+                        text = exercise.exerciseType
+                            .replace("🎯 ", "")
+                            .replace(" (Practice)", ""),
+                        color = TextPrimary,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    // Badge — Exercise or Practice
+                    Card(
+                        shape = RoundedCornerShape(4.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = if (exercise.exerciseType.contains("Practice"))
+                                NeonGreen.copy(alpha = 0.2f)
+                            else
+                                CardBackground
+                        )
+                    ) {
+                        Text(
+                            text = if (exercise.exerciseType.contains("Practice"))
+                                "🎯 Practice"
+                            else
+                                "💪 Exercise",
+                            color = if (exercise.exerciseType.contains("Practice"))
+                                NeonGreen
+                            else
+                                TextSecondary,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(
+                                horizontal = 6.dp,
+                                vertical   = 2.dp
+                            )
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Sets x Reps
+                // Sets x Reps OR Duration for practice
                 Text(
-                    text = "${exercise.sets} sets × ${exercise.reps} reps",
+                    text = if (exercise.exerciseType.contains("Practice"))
+                        "⏱️ Duration: ${exercise.reps} minutes"
+                    else
+                        "${exercise.sets} sets × ${exercise.reps} reps",
                     color = NeonGreen,
                     fontSize = 14.sp
                 )

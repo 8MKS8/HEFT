@@ -80,11 +80,17 @@ class ExerciseRepository {
     // Save a practice session
     suspend fun savePractice(practice: Practice): Result<String> {
         return try {
+            android.util.Log.d("ExerciseRepository",
+                "Saving practice to Firestore: ${practice.exerciseType} userId=$userId")
             val doc = firestore.collection("practice")
                 .add(practice.copy(userId = userId))
                 .await()
+            android.util.Log.d("ExerciseRepository",
+                "Practice saved successfully: ${doc.id}")
             Result.success(doc.id)
         } catch (e: Exception) {
+            android.util.Log.e("ExerciseRepository",
+                "Failed to save practice", e)
             Result.failure(e)
         }
     }

@@ -260,9 +260,13 @@ fun PracticeScreen(
             TrainingPlanCard(
                 exerciseName = selectedExercise.name,
                 onSave = { sets, reps, calories ->
+                    // Estimate duration based on sets and reps
+                    // Average 3 seconds per rep + rest time between sets
+                    val estimatedDuration = ((sets * reps * 3) / 60).coerceAtLeast(1)
+
                     viewModel.savePractice(
                         exerciseType    = selectedExercise.name,
-                        durationMinutes = "30",
+                        durationMinutes = estimatedDuration.toString(),
                         videoWatched    = videoWatched,
                         notes           = "$sets sets × $reps reps — ${String.format("%.1f", calories)} kcal"
                     )

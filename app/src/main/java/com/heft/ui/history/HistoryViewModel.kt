@@ -27,13 +27,38 @@ class HistoryViewModel : ViewModel() {
     fun loadExercises() {
         viewModelScope.launch {
             _historyState.value = HistoryState.Loading
-            val result = repository.getExercises()
-            result.onSuccess { exercises ->
-                _historyState.value = HistoryState.Success(exercises)
-            }
-            result.onFailure { e ->
+
+            val exercisesResult = repository.getExercises()
+            val practicesResult = repository.getPractices()
+
+            if (exercisesResult.isSuccess) {
+                val exercises = exercisesResult.getOrNull() ?: emptyList()
+                val practices = practicesResult.getOrNull() ?: emptyList()
+
+                android.util.Log.d("HistoryViewModel",
+                    "Loaded ${exercises.size} exercises and ${practices.size} practices")
+
+                val practiceAsExercises = practices.map { practice ->
+                    com.heft.data.model.Exercise(
+                        id             = practice.id,
+                        userId         = practice.userId,
+                        exerciseType   = "🎯 ${practice.exerciseType} (Practice)",
+                        sets           = 1,
+                        reps           = practice.durationMinutes,
+                        caloriesBurned = practice.caloriesBurned,
+                        notes          = practice.notes,
+                        timestamp      = practice.timestamp
+                    )
+                }
+
+                val combined = (exercises + practiceAsExercises)
+                    .sortedByDescending { it.timestamp?.seconds ?: 0 }
+
+                _historyState.value = HistoryState.Success(combined)
+            } else {
                 _historyState.value = HistoryState.Error(
-                    e.message ?: "Failed to load exercises"
+                    exercisesResult.exceptionOrNull()?.message
+                        ?: "Failed to load history"
                 )
             }
         }

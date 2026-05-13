@@ -2,7 +2,6 @@ package com.heft.ui.practice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.heft.data.model.Exercise
 import com.heft.data.model.Practice
 import com.heft.data.repository.ExerciseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -79,6 +78,9 @@ class PracticeViewModel : ViewModel() {
                 notes           = notes,
                 timestamp       = Timestamp.now()
             )
+
+            android.util.Log.d("PracticeViewModel",
+                "Saving practice: $exerciseType duration=$duration calories=$calories")
 
             val result = repository.savePractice(practice)
 
