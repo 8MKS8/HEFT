@@ -25,15 +25,16 @@ import com.heft.ui.practice.PracticeScreen
 
 
 class MainActivity : ComponentActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            // Navigation controller
             val navController = rememberNavController()
-
-            // Auth ViewModel
             val authViewModel: AuthViewModel = viewModel()
+
 
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -43,51 +44,24 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = if (authViewModel.isLoggedIn) "home" else "auth"
                 ) {
-                    // Auth screen — Login / Register
                     composable("auth") {
                         AuthScreen(
                             onAuthSuccess = {
                                 navController.navigate("home") {
-                                    // Clear back stack so user cant go back to login
                                     popUpTo("auth") { inclusive = true }
                                 }
                             }
                         )
                     }
 
-                    // Home screen — main navigation hub
                     composable("home") {
                         HomeScreen(
-                            // Navigate to Add Exercise screen
-                            onAddExercise = {
-                                navController.navigate("exercise")
-
-                            },
-
-
-                            // Navigate to History screen
-                            onHistory = {
-                                navController.navigate("history")
-                            },
-                            // Navigate to Analytics screen
-                            onAnalytics = {
-                                navController.navigate("analytics")
-                            },
-                            // Navigate to Practice screen
-                            onPractice = {
-                                navController.navigate("practice")
-                            },
-                            // Navigate to Profile screen
-                            onProfile = {
-                                navController.navigate("profile")
-                            },
-
-                            // Navigate to Notifications screen
-                            onNotifications = {
-                                navController.navigate("notifications")
-                            },
-
-                            // Logout — clear back stack and go to auth
+                            onAddExercise = { navController.navigate("exercise") },
+                            onHistory = { navController.navigate("history") },
+                            onAnalytics = { navController.navigate("analytics") },
+                            onPractice = { navController.navigate("practice") },
+                            onProfile = { navController.navigate("profile") },
+                            onNotifications = { navController.navigate("notifications") },
                             onLogout = {
                                 FirebaseAuth.getInstance().signOut()
                                 navController.navigate("auth") {
@@ -97,64 +71,28 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // Add Exercise screen
                     composable("exercise") {
-                        ExerciseScreen(
-                            // Navigate back to home
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        ExerciseScreen(onBack = { navController.popBackStack() })
                     }
 
-                    // History screen
                     composable("history") {
-                        HistoryScreen(
-                            // Navigate back to home
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        HistoryScreen(onBack = { navController.popBackStack() })
                     }
 
-                    // Profile screen
                     composable("profile") {
-                        ProfileScreen(
-                            // Navigate back to home
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        ProfileScreen(onBack = { navController.popBackStack() })
                     }
 
-                    // Notifications screen
                     composable("notifications") {
-                        NotificationsScreen(
-                            // Navigate back to home
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        NotificationsScreen(onBack = { navController.popBackStack() })
                     }
 
-                    // Analytics screen
                     composable("analytics") {
-                        AnalyticsScreen(
-                            // Navigate back to home
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        AnalyticsScreen(onBack = { navController.popBackStack() })
                     }
 
-                    // Practice screen
                     composable("practice") {
-                        PracticeScreen(
-                            // Navigate back to home
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        PracticeScreen(onBack = { navController.popBackStack() })
                     }
                 }
             }

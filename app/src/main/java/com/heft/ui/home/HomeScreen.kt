@@ -19,6 +19,11 @@ import com.heft.ui.auth.DarkBackground
 import com.heft.ui.auth.NeonGreen
 import com.heft.ui.auth.TextPrimary
 import com.heft.ui.auth.TextSecondary
+import androidx.activity.compose.BackHandler
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.platform.LocalContext
+
 
 /**
  * HomeScreen – Main landing screen after login.
@@ -39,11 +44,32 @@ fun HomeScreen(
     onNotifications: () -> Unit,
     onLogout: () -> Unit
 ) {
-    // Controls whether the menu dialog is showing
     var showMenu by remember { mutableStateOf(false) }
+    var showExitDialog by remember { mutableStateOf(false) }
 
-    // Get current user email from Firebase
+    val context = LocalContext.current
     val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: ""
+
+    BackHandler {
+        showExitDialog = true
+    }
+
+    if (showExitDialog) {
+        AlertDialog(
+            onDismissRequest = { showExitDialog = false },
+            title = { Text("Exit HEFT?") },
+            text = { Text("Are you sure you want to quit?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showExitDialog = false
+                    (context as? android.app.Activity)?.finishAffinity()
+                }) { Text("Exit") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showExitDialog = false }) { Text("Stay") }
+            }
+        )
+    }
 
     // ── Menu Dialog ───────────────────────────────────────────────────────
     if (showMenu) {

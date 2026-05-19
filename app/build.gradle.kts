@@ -57,6 +57,8 @@ dependencies {
     // WorkManager — for scheduling notifications
     implementation(libs.androidx.work.runtime)
 
+    // AppCompat — needed for AlertDialog in Compose
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
 
     // Compose BOM — manages all Compose versions
